@@ -87,7 +87,7 @@ const CertificateContent = React.forwardRef<HTMLDivElement, CertificateContentPr
   return (
     <div
       ref={ref}
-      className="bg-white p-12 w-[600px] min-h-[600px] flex flex-col justify-between border-[20px] border-zinc-900 rounded-[4rem] relative overflow-hidden shadow-2xl"
+      className="bg-white p-12 w-[600px] min-h-[600px] flex flex-col justify-between rounded-3xl border border-zinc-100 relative overflow-hidden shadow-2xl"
     >
       {/* Decorative Background */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
