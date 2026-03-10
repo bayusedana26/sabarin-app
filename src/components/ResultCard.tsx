@@ -70,11 +70,11 @@ interface CertificateContentProps {
   ref?: React.Ref<HTMLDivElement>;
 }
 
-const CertificateContent = React.forwardRef<HTMLDivElement, CertificateContentProps>(({ 
-  result, 
-  serialNumber, 
-  patienceLevel, 
-  includeEvidence 
+const CertificateContent = React.forwardRef<HTMLDivElement, CertificateContentProps>(({
+  result,
+  serialNumber,
+  patienceLevel,
+  includeEvidence
 }, ref) => {
   // Dynamic font size based on text length
   const getFontSize = (text: string) => {
@@ -85,7 +85,7 @@ const CertificateContent = React.forwardRef<HTMLDivElement, CertificateContentPr
   };
 
   return (
-    <div 
+    <div
       ref={ref}
       className="bg-white p-12 w-[600px] min-h-[600px] flex flex-col justify-between border-[20px] border-zinc-900 rounded-[4rem] relative overflow-hidden shadow-2xl"
     >
@@ -101,7 +101,7 @@ const CertificateContent = React.forwardRef<HTMLDivElement, CertificateContentPr
             <ShieldCheck className="w-10 h-10" />
           </div>
           <div className="text-center space-y-1">
-            <h3 className="text-4xl font-black tracking-tighter text-zinc-900 uppercase">Sertifikat Slay</h3>
+            <h3 className="text-4xl font-black tracking-tighter text-zinc-900 uppercase">Sertifikat Sabar</h3>
             <p className="text-[10px] font-mono text-zinc-400 uppercase tracking-[0.3em] font-bold">ID: {serialNumber}</p>
           </div>
         </div>
@@ -143,7 +143,7 @@ const CertificateContent = React.forwardRef<HTMLDivElement, CertificateContentPr
               </div>
             </div>
           </div>
-          
+
           <div className="relative">
             <div className="w-24 h-24 border-4 border-red-600 rounded-full flex flex-col items-center justify-center font-black text-red-600 bg-white shadow-xl border-dashed rotate-12">
               <Zap className="w-6 h-6 mb-1 fill-red-600" />
@@ -187,42 +187,42 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
   const [isModalOpen, setIsModalOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const serialNumber = React.useMemo(() => 
+  const serialNumber = React.useMemo(() =>
     `SBR-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`,
-  []);
+    []);
 
   const patienceLevel = React.useMemo(() => {
     if (!result) return null;
     const avg = (result.score.savage + result.score.professional) / 2;
-    if (avg > 90) return { 
-      name: 'Zen Master', 
+    if (avg > 90) return {
+      name: 'Zen Master',
       desc: 'Sabar tingkat dewa, no cap! 🧘‍♂️',
-      icon: <Crown className="w-6 h-6" />, 
-      color: 'text-amber-500', 
+      icon: <Crown className="w-6 h-6" />,
+      color: 'text-amber-500',
       bg: 'bg-amber-50',
       border: 'border-amber-200'
     };
-    if (avg > 70) return { 
-      name: 'Elite Sabar', 
+    if (avg > 70) return {
+      name: 'Elite Sabar',
       desc: 'Udah pro banget nahan emosi. 🛡️',
-      icon: <Trophy className="w-6 h-6" />, 
-      color: 'text-red-600', 
+      icon: <Trophy className="w-6 h-6" />,
+      color: 'text-red-600',
       bg: 'bg-red-50',
       border: 'border-red-200'
     };
-    if (avg > 40) return { 
-      name: 'Pro Sabar', 
+    if (avg > 40) return {
+      name: 'Pro Sabar',
       desc: 'Lumayan lah, masih aman terkendali. 👌',
-      icon: <Medal className="w-6 h-6" />, 
-      color: 'text-zinc-900', 
+      icon: <Medal className="w-6 h-6" />,
+      color: 'text-zinc-900',
       bg: 'bg-zinc-100',
       border: 'border-zinc-200'
     };
-    return { 
-      name: 'Sabar Pemula', 
+    return {
+      name: 'Sabar Pemula',
       desc: 'Masih belajar sabar, semangat ya! 🌱',
-      icon: <Award className="w-6 h-6" />, 
-      color: 'text-zinc-400', 
+      icon: <Award className="w-6 h-6" />,
+      color: 'text-zinc-400',
       bg: 'bg-zinc-50',
       border: 'border-zinc-100'
     };
@@ -230,7 +230,7 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
 
   const handleCopy = useCallback(async () => {
     if (!result) return;
-    
+
     try {
       await navigator.clipboard.writeText(result.translated);
       setCopied(true);
@@ -252,13 +252,13 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
   const handleDownload = useCallback(async (includeEvidence: boolean) => {
     if (!cardRef.current || !result) return;
     setIsDownloading(true);
-    
+
     try {
       // Wait for UI to update
       await new Promise(resolve => setTimeout(resolve, 500));
 
       const element = cardRef.current;
-      
+
       // Use a higher scale for better quality
       const dataUrl = await toPng(element, {
         cacheBust: true,
@@ -268,12 +268,12 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
           transform: 'scale(1)',
         }
       });
-      
+
       const link = document.createElement('a');
       link.download = `sabar-in-certificate-${serialNumber}.png`;
       link.href = dataUrl;
       link.click();
-      
+
       setIsModalOpen(false);
     } catch (error) {
       console.error('Download failed:', error);
@@ -286,7 +286,7 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
   const handleShareWhatsApp = useCallback(() => {
     if (!result) return;
     const text = `Cek sertifikat kesabaran gue dari Sabar.in! 🛡️\n\n"${result.translated}"\n\nSavage Level: ${result.score.savage}%\nProfessionalism: ${result.score.professional}%\n\nCoba sendiri di: ${window.location.origin}`;
-    
+
     try {
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
     } catch (error) {
@@ -364,7 +364,7 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
@@ -403,7 +403,7 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
 
           {/* Hidden Certificate for Capture */}
           <div className="fixed left-[-9999px] top-[-9999px] pointer-events-none" aria-hidden="true">
-            <CertificateContent 
+            <CertificateContent
               ref={cardRef}
               result={result}
               serialNumber={serialNumber}
@@ -412,7 +412,7 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
             />
           </div>
 
-          <DownloadModal 
+          <DownloadModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onDownload={() => handleDownload(showIntent)}
@@ -422,7 +422,7 @@ export default function ResultCard({ result, isLoading = false }: ResultCardProp
             previewElement={
               <div className="w-full flex justify-center overflow-hidden">
                 <div className="scale-[0.45] md:scale-[0.6] origin-top">
-                  <CertificateContent 
+                  <CertificateContent
                     result={result}
                     serialNumber={serialNumber}
                     patienceLevel={patienceLevel}
